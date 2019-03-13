@@ -1,15 +1,19 @@
 package com.company;
 
+import com.company.List.MyLinkedList;
+
 public class Main {
 
     public static void main(String[] args) {
+
         MyLinkedList<Integer> list = new MyLinkedList<>();
         System.out.println("init size " + list.size());
+
         for (int i = 0; i < 10; i++) {
-            list.add(i);
+            list.add(1);
         }
+
         System.out.println("add 10 elements - size " +list.size());
-        list.remove(5);
 
         /*
         for (int i = 0; i < list.size(); i++) {
@@ -17,7 +21,12 @@ public class Main {
         }
         */
 
-        System.out.println("remove 5th element - size " + list.size());
+        System.out.println(list);
+
+        list.removeAll(1);
+
+        System.out.println(list.size());
+
     }
 
 }
