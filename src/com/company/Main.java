@@ -9,11 +9,11 @@ public class Main {
         MyLinkedList<Integer> list = new MyLinkedList<>();
         System.out.println("init size " + list.size());
 
-        for (int i = 0; i < 10; i++) {
-            list.add(1);
+        for (int i = 1; i < 11; i++) {
+            list.add(0, i);
         }
 
-        System.out.println("add 10 elements - size " +list.size());
+        System.out.println(list.size());
 
         /*
         for (int i = 0; i < list.size(); i++) {
@@ -22,10 +22,6 @@ public class Main {
         */
 
         System.out.println(list);
-
-        list.removeAll(1);
-
-        System.out.println(list.size());
 
     }
 

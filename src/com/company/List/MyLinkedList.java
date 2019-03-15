@@ -4,11 +4,11 @@ package com.company.List;
 https://twitter.com/joshbloch/status/583813919019573248
 */
 
-public class MyLinkedList<E> {
+public class MyLinkedList<T> {
 
     private int size = 0;
-    private Node<E> first;
-    private Node<E> last;
+    private Node<T> first;
+    private Node<T> last;
 
     public MyLinkedList() {
     }
@@ -31,27 +31,30 @@ public class MyLinkedList<E> {
     }
 
     // Добавление в конец списка
-    public void add(E element) {
+    public void add(T element) {
         add(size, element);
     }
 
     // Добавление по индексу
-    public void add(int index, E element) {
+    public void add(int index, T element) {
         if (index == size) {
-            final Node<E> node = new Node<>(element, last, null);
+            Node<T> node = new Node<>(element, last, null);
             if (last == null) first = node;
             else last.next = node;
             last = node;
         } else {
             checkIndex(index);
-            Node<E> old = getNode(index);
-            old.next.prev = old.next = new Node<>(element, old, old.next);
+            Node<T> old = getNode(index);
+            Node<T> node = new Node<>(element, old.prev, old);
+            if (index == 0) first = node;
+            else old.prev.next = node;
+            old.prev = node;
         }
         size++;
     }
 
     // Получение по индексу
-    public E get(int index) {
+    public T get(int index) {
         checkIndex(index);
         return getNode(index).data;
     }
@@ -59,7 +62,7 @@ public class MyLinkedList<E> {
     // Удаление по индексу
     public void remove(int index) {
         checkIndex(index);
-        Node<E> rem = getNode(index);
+        Node<T> rem = getNode(index);
         if (index != 0) rem.prev.next = rem.next;
         else first = rem.next;
         if (index != size - 1) rem.next.prev = rem.prev;
@@ -69,13 +72,13 @@ public class MyLinkedList<E> {
     }
 
     // Удаление первого заданного элемента
-    public void remove(E element) {
+    public void remove(T element) {
         int index = indexOf(element);
         if (index != -1) remove(index);
     }
 
     // Удаление всех заданных элементов
-    public void removeAll(E element) {
+    public void removeAll(T element) {
         int index = indexOf(element);
         while (index != -1) {
             remove(index);
@@ -85,7 +88,7 @@ public class MyLinkedList<E> {
 
     // Возвращает индекс первого вхождения элемента
     // Если элемент отсутствует в списке возвращает -1
-    public int indexOf(E element) {
+    public int indexOf(T element) {
         for (int i = 0; i < size; i++) {
             if (getNode(i).data.equals(element)) return i;
         }
@@ -98,15 +101,30 @@ public class MyLinkedList<E> {
         size = 0;
     }
 
+    // Заменяет элемент по индексу
+    public void replace(int index, T element) {
+        checkIndex(index);
+        getNode(index).data = element;
+    }
+
+    // Заменяет все заданные элементы
+    public void replaceAll(T oldElement, T newElement) {
+        int index = indexOf(oldElement);
+        while (index != -1) {
+            getNode(index).data = newElement;
+            index = indexOf(oldElement);
+        }
+    }
+
     // Проверка индекса
-    // Кидает OutOfBounds exception если индекс не входит в диапазон [0, size)
+    // Кидает IndexOutOfBoundsException если индекс не входит в диапазон [0, size)
     private void checkIndex(int i) {
         if (i < 0 || i >= size) throw new IndexOutOfBoundsException();
     }
 
     // Возвращает ноду по индексу
-    private Node<E> getNode(int index) {
-        Node<E> node;
+    private Node<T> getNode(int index) {
+        Node<T> node;
         if (index > size / 2) {
             node = last;
             for (int i = size - 1; i > index; i--) {
@@ -123,6 +141,7 @@ public class MyLinkedList<E> {
 
     @Override
     public String toString() {
+        if (size == 0) return "";
         StringBuilder builder = new StringBuilder();
         builder.append("[");
         for (int i = 0; i < size; i++) {
