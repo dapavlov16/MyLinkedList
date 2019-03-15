@@ -2,6 +2,8 @@ package com.company;
 
 import com.company.List.MyLinkedList;
 
+import java.util.Arrays;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -13,6 +15,8 @@ public class Main {
             list.add(0, i);
         }
 
+        System.out.println(Arrays.toString(list.toArray()));
+
         System.out.println(list.size());
 
         /*
@@ -20,6 +24,7 @@ public class Main {
             System.out.println(list.get(i));
         }
         */
+
 
         System.out.println(list);
 

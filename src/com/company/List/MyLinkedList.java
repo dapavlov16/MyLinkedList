@@ -139,6 +139,16 @@ public class MyLinkedList<T> {
         return node;
     }
 
+    public T[] toArray() {
+        Node<T> node = first;
+        T[] array = (T[]) new Object[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = node.data;
+            node = node.next;
+        }
+        return array;
+    }
+
     @Override
     public String toString() {
         if (size == 0) return "";
